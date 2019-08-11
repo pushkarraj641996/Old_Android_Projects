@@ -6,7 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +33,12 @@ public class MainActivity extends AppCompatActivity {
     ImageButton bt;
     ArrayList<String> arrayList;
     ListView listView;
+    AlarmManager alarmManager;
+    int set_hour;
+    int set_min;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         arrayList = new ArrayList<String>();
@@ -51,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void time(View view){
 
-        calendar = Calendar.getInstance();
+
+        Intent intent = new Intent(MainActivity.this, Alarm.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,PendingIntent,0);
+        calendar =Calendar.getInstance();
         int currenthour = calendar.get(calendar.HOUR_OF_DAY);
         int currentmin = calendar.get(calendar.MINUTE);
 
@@ -59,9 +68,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
                 Toast.makeText(MainActivity.this, hour + ":" + min, Toast.LENGTH_SHORT).show();
+                set_hour = hour;
+                set_min = min;
             }
             }, currenthour, currentmin, false);
 
                 timePickerDialog.show();
-            }
+
+        calendar.set(Calendar.HOUR_OF_DAY,set_hour);
+        calendar.set(Calendar.MINUTE,set_min);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,alarmIntent);
+    }
+
+
 }
