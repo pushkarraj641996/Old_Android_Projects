@@ -12,6 +12,9 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter implements ListAdapter {
@@ -30,7 +33,7 @@ public class MyAdapter extends BaseAdapter implements ListAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public String getItem(int i) {
         return arrayList.get(i);
     }
 
@@ -47,16 +50,7 @@ public class MyAdapter extends BaseAdapter implements ListAdapter {
             view = inflater.inflate(R.layout.custom, null);
         }
         TextView textView = (TextView)view.findViewById(R.id.text);
-        textView.setText(arrayList.get(i));
-
-        ImageButton bt = (ImageButton)view.findViewById(R.id.alarm);
-
-        bt.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Alarm invoked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        textView.setText(getItem(i));
         return view;
     }
 }
