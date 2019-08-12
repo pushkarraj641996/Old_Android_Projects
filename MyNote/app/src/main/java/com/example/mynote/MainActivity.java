@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,30 +56,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void time(View view){
+    public void invokeAlarm(){
 
+        Toast.makeText(MainActivity.this,"Alarm Set for: " +calendar.get(Calendar.HOUR_OF_DAY) +":" + calendar.get(Calendar.MINUTE), Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(MainActivity.this, Alarm.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,PendingIntent,0);
-        calendar =Calendar.getInstance();
+        Intent intent = new Intent(MainActivity.this, Wakeup.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),1,intent,0);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+    }
+
+    public void time(View view) {
+
+        calendar = Calendar.getInstance();
         int currenthour = calendar.get(calendar.HOUR_OF_DAY);
         int currentmin = calendar.get(calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                Toast.makeText(MainActivity.this, hour + ":" + min, Toast.LENGTH_SHORT).show();
-                set_hour = hour;
-                set_min = min;
+                calendar.set(Calendar.HOUR_OF_DAY,hour);
+                calendar.set(Calendar.MINUTE,min);
+                calendar.set(Calendar.SECOND,0);
+                //Toast.makeText(MainActivity.this, set_hour+":"+set_min, Toast.LENGTH_SHORT).show();
+                invokeAlarm();
             }
-            }, currenthour, currentmin, false);
+        }, currenthour, currentmin, false);
 
-                timePickerDialog.show();
-
-        calendar.set(Calendar.HOUR_OF_DAY,set_hour);
-        calendar.set(Calendar.MINUTE,set_min);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,alarmIntent);
+        timePickerDialog.show();
     }
-
 
 }
