@@ -19,8 +19,10 @@ import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter implements ListAdapter {
 
+    TextView text;
     ArrayList<String> arrayList = new ArrayList<String>();
     Context context;
+
 
     public MyAdapter(ArrayList<String> list, Context context){
         this.arrayList = list;
@@ -50,7 +52,9 @@ public class MyAdapter extends BaseAdapter implements ListAdapter {
             view = inflater.inflate(R.layout.custom, null);
         }
         TextView textView = (TextView)view.findViewById(R.id.text);
+        text = (TextView)view. findViewById(R.id.textView4);
         textView.setText(getItem(i));
+        text.setText("Alarm Disabled");
         return view;
     }
 }
