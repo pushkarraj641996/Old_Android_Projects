@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.doselect.mycourseapp.CourseScreen"
+        android:orientation="vertical"
+        android:id="@+id/topHead"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <EditText
+            android:id="@+id/couseEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:hint="Enter course name"
+            android:ems="10" >
+
+
+        </EditText>
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:onClick="addRecord"
+            android:text="Add Course to my list" />
+
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:onClick="deleteRecord"
+            android:text="Delete Course from my list" />
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/deleteBtn" >
+        </ListView>
+
+    </LinearLayout>
+
+
